@@ -3,24 +3,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F2F2F2"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:background="#66BB6A"
-            android:textColor="#000000"
-            android:id="@+id/send_location"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        >
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/containerText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/send_location"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:paddingTop="10dp"
+            android:paddingHorizontal="10dp"
+            >
+            <TextView
+                android:textSize="11sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/length"
+                android:textColor="#A9A9A9"
+                android:fontFamily="@font/comfortaa_light"
+                android:layout_marginEnd="20dp"
+                />
+            <TextView
+                android:textSize="11sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/latitude"
+                android:textColor="#A9A9A9"
+                android:fontFamily="@font/comfortaa_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/containerData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/containerText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingHorizontal="10dp"
+            >
+            <TextView
+                android:id="@+id/length"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/data_metrics"
+                android:textColor="#121330"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:fontFamily="@font/comfortaa_bold"
+                android:layout_marginEnd="10dp"
+                />
+            <TextView
+                android:id="@+id/latitude"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/data_metrics"
+                android:textColor="#121330"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:fontFamily="@font/comfortaa_bold"
+                android:layout_marginEnd="10dp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_marginVertical="5dp"
+            android:id="@+id/gifWalking"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_walking"
+            app:layout_constraintTop_toBottomOf="@id/containerData"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:fontFamily="@font/comfortaa_medium"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/send_location"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/send_location"
+            android:textColor="#08C18A"
+            android:textAllCaps="false"
+            android:background="@drawable/custom_button"
+            app:layout_constraintTop_toBottomOf="@id/gifWalking"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

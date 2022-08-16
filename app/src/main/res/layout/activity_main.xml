@@ -5,21 +5,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/box_inset_layout_padding"
+    android:background="#F2F2F2"
     tools:context=".MainActivity"
     tools:deviceIds="wear">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
-            android:id="@+id/to_home"
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifLocation"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_location"
+            app:layout_constraintBottom_toTopOf="@id/containerText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/containerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/go_home"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gifLocation"
+            app:layout_constraintBottom_toTopOf="@id/gifLoader"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textColor="#121330"
+                android:fontFamily="@font/comfortaa_bold"
+                android:layout_marginEnd="5dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app"
+                android:textColor="#08C18A"
+                android:fontFamily="@font/comfortaa_bold"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifLoader"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_loader"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.wear.widget.BoxInsetLayout>

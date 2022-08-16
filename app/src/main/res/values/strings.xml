@@ -5,6 +5,13 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
-    <string name="send_location">send location</string>
+    <string name="send_location">Send location</string>
     <string name="go_home">go home</string>
+    <string name="location_app">Location app</string>
+    <string name="location">Location</string>
+    <string name="app">App</string>
+    <string name="current_location">Current location</string>
+    <string name="length">length</string>
+    <string name="latitude">latitude</string>
+    <string name="data_metrics">-.-</string>
 </resources>
