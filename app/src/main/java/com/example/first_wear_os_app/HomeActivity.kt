@@ -6,10 +6,10 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,8 +32,21 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    getCurrentLocation()
+                } else {
+                    val toast =
+                        Toast.makeText(applicationContext, "Need permissions", Toast.LENGTH_LONG)
+                    toast.show()
+                    requestPermissonLocation()
+                }
+            }
+        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         setContentView(R.layout.activity_home)
-        getCurrentLocation()
         txtLength = findViewById(R.id.length)
         txtLatitude = findViewById(R.id.latitude)
         btnSendLocation = findViewById(R.id.send_location)
@@ -47,41 +60,44 @@ class HomeActivity : AppCompatActivity() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+            ) == PackageManager.PERMISSION_DENIED
         ) {
-            return
-        }
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER, 4000, 0F
-        ) { location ->
-            txtLength.text = location.longitude.toString()
-            txtLatitude.text = location.latitude.toString()
-            length = location.longitude
-            latitude = location.latitude
+            requestPermissonLocation()
+        } else {
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 4000, 0F
+            ) { location ->
+                txtLength.text = location.longitude.toString()
+                txtLatitude.text = location.latitude.toString()
+                length = location.longitude
+                latitude = location.latitude
+            }
         }
     }
 
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://apimocha.com/retrofit2/")
+            .baseUrl("http://167.99.5.117/api/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     private fun sendPetition() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val data = Location(length, latitude)
-            val call = getRetrofit().create(APIService::class.java).postData("example/", data)
-            val response = call.body()
-            if (call.isSuccessful) {
-                makeToast()
-                Log.i("response", response.toString())
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            requestPermissonLocation()
+        } else {
+            CoroutineScope(Dispatchers.IO).launch {
+                val data = Location(length, latitude)
+                val call = getRetrofit().create(APIService::class.java).postData("coords", data)
+                if (call.isSuccessful) {
+                    makeToast()
+                }
             }
         }
-
     }
 
     private suspend fun makeToast() {
@@ -89,6 +105,14 @@ class HomeActivity : AppCompatActivity() {
             val toast = Toast.makeText(applicationContext, toastText, toastDuration)
             toast.show()
         }
+    }
+
+    private fun requestPermissonLocation() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            99
+        )
     }
 
 }
